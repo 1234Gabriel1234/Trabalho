@@ -21,5 +21,12 @@ while True:
     if escolha == 5:
      print ("Saindo....")
      break
-    
+        
+    if escolha == 1:
+       id_ativo = int(input("Digite o ID do ativo  "))
+       tipo_ativo = input("Digite o tipo do ativo  ")  #mudar isso aq pra enum
+       marca_ativo = input("Digite a marca do ativo  ")
+       responsavel_ativo = input("Digite o responsável pelo ativo  ")
+       setor_ativo = input("Digite o setor  ")
+
   
