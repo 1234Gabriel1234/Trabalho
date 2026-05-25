@@ -21,7 +21,7 @@ while True:
 
     try:
      
-     escolha = int(input("Selecione uma opção  "))
+     escolha = int(input("Selecione uma opção  ")) 
 
      if escolha == 5:
       print ("Saindo....")
@@ -55,7 +55,7 @@ while True:
 
 
      #Buscar
-     if escolha == 2:
+     elif escolha == 2:
        if not os.path.exists(arquivo):
          print ("Não existe ativos cadastrados ainda")      #Verifica .txt ja foi criado
 
@@ -66,8 +66,10 @@ while True:
              dados = linha.strip().split(";")
              dados [0]                                      #pega o primeiro dado da lista (ID)
 
-             if dados == qual_id:                           #compara se é igual ao input
+             if dados[0]  == qual_id:                           #compara se é igual ao input
                print (linha)
+               break
+             
              else:
                print ("Este ID não existe !")
 
@@ -75,7 +77,7 @@ while True:
 
 
      #atualizar
-     if escolha == 3:
+     elif escolha == 3:
          if not os.path.exists(arquivo):
           print ("Não existe ativos cadastrados ainda")      #Verifica .txt ja foi criado
 
@@ -86,17 +88,17 @@ while True:
               dados = linha.strip().split(";")
               dados [0]          
 
-            if not dados == update_ativo:                   #se ID não bater, para
-              print ("O ID digitado não corresponde")       #|||||||||||||||||||||
-            else:                                           #Se bater, continua com o update
-              print (f"Status atual do ativo  {linha}")        
-              update_qual = int(input ("Qual categoria deseja alterar ?\n 1- Tipo do ativo\n 2- Marca do ativo\n 3- Responsável do ativo\n 4- Setor do ativo\n  "))
+              if not dados == update_ativo:                   #se ID não bater, para
+               print ("O ID digitado não corresponde")       #|||||||||||||||||||||
+              else:                                           #Se bater, continua com o update
+               print (f"Status atual do ativo  {linha}")        
+               update_qual = int(input ("Qual categoria deseja alterar ?\n 1- Tipo do ativo\n 2- Marca do ativo\n 3- Responsável do ativo\n 4- Setor do ativo\n  "))
               
               #Update tipo
-              if update_qual == 1:                    #Tipo ta em enum, ent preciso de um int aq, diferente dos outros q é input
-               print ("\n Tipos de ativos")
-               print ("1- Notebook\n 2- Servidor\n 3- Roteador\n 4- Software")        #lista os tipos disponíveis
-
+               if update_qual == 1:                    #Tipo ta em enum, ent preciso de um int aq, diferente dos outros q é input
+                print ("\n Tipos de ativos")
+                print ("1- Notebook\n 2- Servidor\n 3- Roteador\n 4- Software")        #lista os tipos disponíveis
+ 
                tipo_escolhido2 = int(input("Digite o número de qual tipo de ativo deseja alterar  "))
                tipo_ativo2 = TipoDeAtivos (tipo_escolhido2)             #Salva de acordo com a tabela enum
 
@@ -105,34 +107,37 @@ while True:
   
 
               #Update marca
-              if update_qual == 2:
+               if update_qual == 2:
                 marca_update = input("Digite por qual marca deseja alterar o ativo  ")
-                with open (arquivo, "w", encoding="utf-8") as f:
-                  f.write [2(marca_update)]
-               
+                dados [2] = marca_update
+                nova_linha = ";".join(dados)
 
               #Update responsável
-              if update_qual == 3:
+               if update_qual == 3:
                 responsavel_update = input("Digite por qual responsável deseja alterar o ativo  ")
-                with open (arquivo, "w", encoding="utf-8") as f:
-                  f.write [3(responsavel_update)]
+                dados [3] = responsavel_update
+                nova_linha = ";".join(dados)
 
               #Update setor
-              if update_qual == 4:
+               if update_qual == 4:
                 setor_update = input("Digite por qual setor deseja alterar o ativo  ")
-                with open (arquivo, "w", encoding="utf-8") as f:
-                  f.write [3(setor_update)]
+                dados [4] = setor_update
+                nova_linha = ";".join(dados)
 
               #Opção invalida
-              else:
+               else:
                 print ("Selecione uma opção válida !")
 
 
 
 
-     if escolha == 4:
+     elif escolha == 4:
        
 
        #FAZER MENSAGEM DE '....COM SUCESSO NO FINAL DE CADA FUNÇÃO
        #CAPS NAS MAINS
+       #O UPDATE TA ERRADO, TEM Q ARRUMAR O FINAL DE CADA IF DO UPDATE
+
+
+       
 
