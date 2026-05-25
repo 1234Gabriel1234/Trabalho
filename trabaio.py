@@ -57,22 +57,25 @@ while True:
      #Buscar
      elif escolha == 2:
        if not os.path.exists(arquivo):
-         print ("Não existe ativos cadastrados ainda")      #Verifica .txt ja foi criado
+         print ("Não existe ativos cadastrados ainda")     #Verifica .txt ja foi criado
 
        else:
          qual_id = int(input("Digite o ID do ativo  "))
+         encontrado2 = False
+
          with open (arquivo, "r", encoding = "utf-8") as f:
            for linha in f:
              dados = linha.strip().split(";")
-             dados [0]                                      #pega o primeiro dado da lista (ID)
+             dados [0]                              #pega o primeiro dado da lista (ID)
 
-             if dados[0]  == qual_id:                           #compara se é igual ao input
+             if dados[0]  == str(qual_id):         #compara se é igual ao input (str pq o int no .txt se lê str)
+               encontrado2 = True
                print (linha)
                break
              
-             else:
-               print ("Este ID não existe !")
-
+         if not encontrado2:
+          print ("ID não encontrado")
+               
 
 
 
@@ -83,60 +86,79 @@ while True:
 
          else:
           update_ativo = int(input("Digite o ID do ativo que gostaria de atualizar  "))       #guarda o id digitado
+
+          linhas_atualizadas = []     #Variaveis pra usar mais tarde
+          encontrado = False
+
           with open (arquivo, "r", encoding="utf-8") as f:
             for linha in f:
               dados = linha.strip().split(";")
               dados [0]          
+         
+              if dados [0] == str(update_ativo):             #se ID bater, continua (str pq o int no .txt se lê str)
+               encontrado = True  
+               print (f"Status atual do ativo  {linha}")   
 
-              if not dados == update_ativo:                   #se ID não bater, para
-               print ("O ID digitado não corresponde")       #|||||||||||||||||||||
-              else:                                           #Se bater, continua com o update
-               print (f"Status atual do ativo  {linha}")        
                update_qual = int(input ("Qual categoria deseja alterar ?\n 1- Tipo do ativo\n 2- Marca do ativo\n 3- Responsável do ativo\n 4- Setor do ativo\n  "))
-              
-              #Update tipo
+               encontrado = True  
+
+               #Update tipo
                if update_qual == 1:                    #Tipo ta em enum, ent preciso de um int aq, diferente dos outros q é input
                 print ("\n Tipos de ativos")
                 print ("1- Notebook\n 2- Servidor\n 3- Roteador\n 4- Software")        #lista os tipos disponíveis
  
-               tipo_escolhido2 = int(input("Digite o número de qual tipo de ativo deseja alterar  "))
-               tipo_ativo2 = TipoDeAtivos (tipo_escolhido2)             #Salva de acordo com a tabela enum
+                tipo_escolhido2 = int(input("Digite o número de qual tipo de ativo deseja alterar  "))
+                tipo_ativo2 = TipoDeAtivos (tipo_escolhido2)             #Salva de acordo com a tabela enum
 
-               with open (arquivo, "w", encoding="utf-8") as f:
-                 f.write [1(tipo_ativo2.name)]   # <VERIFICAR SE ISSO TA ESCRITO CERTO DPS
-  
+                dados [1] = tipo_ativo2.name
 
-              #Update marca
-               if update_qual == 2:
+
+                     #Update marca
+               elif update_qual == 2:
                 marca_update = input("Digite por qual marca deseja alterar o ativo  ")
                 dados [2] = marca_update
-                nova_linha = ";".join(dados)
+                
 
-              #Update responsável
-               if update_qual == 3:
+                 #Update responsável
+               elif update_qual == 3:
                 responsavel_update = input("Digite por qual responsável deseja alterar o ativo  ")
                 dados [3] = responsavel_update
-                nova_linha = ";".join(dados)
 
-              #Update setor
-               if update_qual == 4:
+               #Update setor
+               elif update_qual == 4:
                 setor_update = input("Digite por qual setor deseja alterar o ativo  ")
                 dados [4] = setor_update
-                nova_linha = ";".join(dados)
 
-              #Opção invalida
-               else:
+
+               #Opção invalida
+               else:                
                 print ("Selecione uma opção válida !")
 
 
+              #criando as variaveis para usar no w (dentro do for)
+              nova_linha = ";".join(dados)
+              linhas_atualizadas.append(nova_linha + "\n")
 
 
-     elif escolha == 4:
-       
+         #salvando os dados coletados fora do for pra n apagar tudo
+         with open (arquivo, "w", encoding="utf-8") as f:
+            f.writelines(linhas_atualizadas)
+
+        
+         # usando o encontrado true aq, para pop mensagem de sucesso pegando todos os if 
+         if encontrado:
+              print ("Ativo atualizado com sucesso !")
+         else:
+             print ("ID não encontrado !")
+
+
+        
 
        #FAZER MENSAGEM DE '....COM SUCESSO NO FINAL DE CADA FUNÇÃO
        #CAPS NAS MAINS
-       #O UPDATE TA ERRADO, TEM Q ARRUMAR O FINAL DE CADA IF DO UPDATE
+       #tem q criar cadastro pras vulnerabilidades
+       #tirar dados[o] pq n serve p nada
+       #gerador de id ta quebrado
 
 
        
