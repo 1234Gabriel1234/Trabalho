@@ -8,7 +8,26 @@ class TipoDeAtivos (Enum):
     Software = 4
 
 arquivo = "registros.txt"
-proximo_id = 1
+
+#Gerador de ID 
+if os.path.exists(arquivo):
+ with open (arquivo, "r", encoding= "utf-8") as f:
+  linhas = f.readlines()
+
+ if len(linhas) > 0:
+   
+   ultima_linha = linhas [-1]
+   ultimo_id = int(ultima_linha.split(";")[0])
+   proximo_id = ultimo_id + 1
+   
+
+ else:
+   proximo_id = 1
+
+else:
+  proximo_id = 1
+
+
 
 while True:
     #MENU
@@ -38,8 +57,8 @@ while True:
        tipo_escolhido = int(input("Selecione o tipo do ativo  "))
        tipo_ativo = TipoDeAtivos(tipo_escolhido)
 
-       id_ativo = proximo_id                                                    #gerador de id
-       proximo_id += 1
+       id_ativo = proximo_id          #usando o gerador de id 
+       
 
        marca_ativo = input("Digite a marca do ativo  ")
        responsavel_ativo = input("Digite o responsável pelo ativo  ")
@@ -152,14 +171,30 @@ while True:
              print ("ID não encontrado !")
 
 
-        
+
+
+
+
+     #DELETAR
+     elif escolha == 4:             
+       if os.path.exists(arquivo):         #Ve se existe .txt e ja pergunta ID
+        selecione_id = int(input("Digite o ID do ativo que deseja excluir"))
+
+        with open (arquivo, "r", encoding="utf-8") as garchomp:
+          for linha in garchomp:
+            dados = linha.strip().split(";")
+            
+            if dados[0] == str(selecione_id):       #compara se é igual ao input (str pq o int no .txt se lê str)
+              escolha_delete = int(input(f"Tem certeza que deseja excluir o cadastro: {linha} ?\n Digite '1' para SIM e '2' para NÃO"))
+
+          
+       
+         
 
        #FAZER MENSAGEM DE '....COM SUCESSO NO FINAL DE CADA FUNÇÃO
        #CAPS NAS MAINS
        #tem q criar cadastro pras vulnerabilidades
        #tirar dados[o] pq n serve p nada
-       #gerador de id ta quebrado
+       #tratar os input errado ou .txt inesistente do del (if 4)
 
-
-       
 
