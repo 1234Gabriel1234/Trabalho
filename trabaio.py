@@ -49,8 +49,8 @@ while True:
 
 
 
-     #cadastro
-     if escolha == 1:
+     #CADASTRO
+     elif escolha == 1:
        print ("\n Tipos de ativos")
        print ("1- Notebook\n 2- Servidor\n 3- Roteador\n 4- Software")
 
@@ -68,12 +68,12 @@ while True:
        with open (arquivo, "a", encoding = "utf-8") as f:
          f.write(f"{id_ativo};{tipo_ativo.name};{marca_ativo};{responsavel_ativo};{setor_ativo}\n")
           #POSIÇÕES    0             1                2                 3                4
+       proximo_id += 1
 
 
 
 
-
-     #Buscar
+     #BUSCAR
      elif escolha == 2:
        if not os.path.exists(arquivo):
          print ("Não existe ativos cadastrados ainda")     #Verifica .txt ja foi criado
@@ -85,7 +85,6 @@ while True:
          with open (arquivo, "r", encoding = "utf-8") as f:
            for linha in f:
              dados = linha.strip().split(";")
-             dados [0]                              #pega o primeiro dado da lista (ID)
 
              if dados[0]  == str(qual_id):         #compara se é igual ao input (str pq o int no .txt se lê str)
                encontrado2 = True
@@ -98,7 +97,7 @@ while True:
 
 
 
-     #atualizar
+     #ATUALIZAR
      elif escolha == 3:
          if not os.path.exists(arquivo):
           print ("Não existe ativos cadastrados ainda")      #Verifica .txt ja foi criado
@@ -112,14 +111,13 @@ while True:
           with open (arquivo, "r", encoding="utf-8") as f:
             for linha in f:
               dados = linha.strip().split(";")
-              dados [0]          
-         
+
+
               if dados [0] == str(update_ativo):             #se ID bater, continua (str pq o int no .txt se lê str)
                encontrado = True  
                print (f"Status atual do ativo  {linha}")   
 
                update_qual = int(input ("Qual categoria deseja alterar ?\n 1- Tipo do ativo\n 2- Marca do ativo\n 3- Responsável do ativo\n 4- Setor do ativo\n  "))
-               encontrado = True  
 
                #Update tipo
                if update_qual == 1:                    #Tipo ta em enum, ent preciso de um int aq, diferente dos outros q é input
@@ -132,13 +130,13 @@ while True:
                 dados [1] = tipo_ativo2.name
 
 
-                     #Update marca
+               #Update marca
                elif update_qual == 2:
                 marca_update = input("Digite por qual marca deseja alterar o ativo  ")
                 dados [2] = marca_update
                 
 
-                 #Update responsável
+               #Update responsável
                elif update_qual == 3:
                 responsavel_update = input("Digite por qual responsável deseja alterar o ativo  ")
                 dados [3] = responsavel_update
@@ -177,24 +175,51 @@ while True:
 
      #DELETAR
      elif escolha == 4:             
-       if os.path.exists(arquivo):         #Ve se existe .txt e ja pergunta ID
+       if not os.path.exists(arquivo):     
+        print ("Nenhum ativo cadastrado até o momento !")  
+        encontrado3 = False
+
+       else:  
         selecione_id = int(input("Digite o ID do ativo que deseja excluir"))
+        linhas_restantes = []     #Variaveis pra usar mais tarde
+        encontrado3 = False
 
         with open (arquivo, "r", encoding="utf-8") as garchomp:
-          for linha in garchomp:
-            dados = linha.strip().split(";")
-            
-            if dados[0] == str(selecione_id):       #compara se é igual ao input (str pq o int no .txt se lê str)
-              escolha_delete = int(input(f"Tem certeza que deseja excluir o cadastro: {linha} ?\n Digite '1' para SIM e '2' para NÃO"))
+            for linha in garchomp:
+              dados = linha.strip().split(";")
 
-          
-       
+         
+              if dados [0] == str(selecione_id):             #se ID bater, continua (str pq o int no .txt se lê str)
+                  encontrado3 = True  
+                  certeza_delete = int(input(f"Tem certeza que deseja excluir o ativo cadastrado ?\n{linha}\n\n 1- SIM   2-NÃO"))
+
+                  if certeza_delete == 1:
+                    print ("Ativo Deletado com sucesso !")
+                    
+                    continue    #continue pra igonarar a linha apagada e so reescrever o resto
+                  else:
+                    print ("Exclusão cancelada !")
+              linhas_restantes.append(linha)
+                 
+         # reescreve o arquivo
+        with open(arquivo, "w", encoding="utf-8") as v:
+
+            v.writelines(linhas_restantes)
+
+        if not encontrado3:
+
+            print("ID não encontrado!")
+        
+     
+     else:
+       print ("Selecione uma opção válida !")
+
+    #tratamento de erro
+    except ValueError:
+      print ("Selecione apenas números !")
          
 
        #FAZER MENSAGEM DE '....COM SUCESSO NO FINAL DE CADA FUNÇÃO
-       #CAPS NAS MAINS
        #tem q criar cadastro pras vulnerabilidades
-       #tirar dados[o] pq n serve p nada
-       #tratar os input errado ou .txt inesistente do del (if 4)
 
 
