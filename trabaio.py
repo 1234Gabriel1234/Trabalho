@@ -53,7 +53,7 @@ while True:
      #CADASTRO
      elif escolha == 1:
        print ("\n Tipos de ativos")
-       print ("1- Notebook\n 2- Servidor\n 3- Roteador\n 4- Software")
+       print (" 1- Notebook\n 2- Servidor\n 3- Roteador\n 4- Software")
 
        tipo_escolhido = int(input("Selecione o tipo do ativo  "))
        tipo_ativo = TipoDeAtivos(tipo_escolhido)
@@ -69,7 +69,11 @@ while True:
        with open (arquivo, "a", encoding = "utf-8") as f:
          f.write(f"{id_ativo};{tipo_ativo.name};{marca_ativo};{responsavel_ativo};{setor_ativo}\n")
           #POSIÇÕES    0             1                2                 3                4
+         
        proximo_id += 1
+       
+       print (f"Ativo cadastrado com sucesso!  {id_ativo};{tipo_ativo.name};{marca_ativo};{responsavel_ativo};{setor_ativo}")
+       print (f"O ID de seu ativo é '{id_ativo}', utilize ele para ter acesso ao ativo mais tarde !")
 
 
 
