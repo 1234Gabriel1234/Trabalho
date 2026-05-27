@@ -24,6 +24,7 @@ if os.path.exists(arquivo):
  else:
    proximo_id = 1
 
+
 else:
   proximo_id = 1
 
@@ -158,14 +159,14 @@ while True:
 
 
          #salvando os dados coletados fora do for pra n apagar tudo
-         with open (arquivo, "w", encoding="utf-8") as f:
-            f.writelines(linhas_atualizadas)
+          with open (arquivo, "w", encoding="utf-8") as f:
+             f.writelines(linhas_atualizadas)
 
         
-         # usando o encontrado true aq, para pop mensagem de sucesso pegando todos os if 
-         if encontrado:
+          # usando o encontrado true aq, para pop mensagem de sucesso pegando todos os if 
+          if encontrado:
               print ("Ativo atualizado com sucesso !")
-         else:
+          else:
              print ("ID não encontrado !")
 
 
@@ -221,5 +222,4 @@ while True:
 
        #FAZER MENSAGEM DE '....COM SUCESSO NO FINAL DE CADA FUNÇÃO
        #tem q criar cadastro pras vulnerabilidades
-
-
+       #a
