@@ -90,31 +90,36 @@ while True:
           qual_id = int(input("Digite o ID do ativo  "))
           encontrado2 = False
 
-         with open (arquivo, "r", encoding = "utf-8") as f:
-           for linha in f:
-             dados = linha.strip().split(";")
+          with open (arquivo, "r", encoding = "utf-8") as f:
+            for linha in f:
+              dados = linha.strip().split(";")
 
-             if dados[0]  == str(qual_id):         #compara se é igual ao input (str pq o int no .txt se lê str)
-               encontrado2 = True
-               print (linha)
-               break
+              if dados[0]  == str(qual_id):         #compara se é igual ao input (str pq o int no .txt se lê str)
+                encontrado2 = True
+                print (linha)
+                break
+                
              
-         if not encontrado2:
-          print ("ID não encontrado")
+          if not encontrado2:
+           print ("ID não encontrado")
 
          elif buscar_com_qual == 2:
            qual_nomee = input("Digite o nome do responsável pelo ativo  ").lower()
            encontrado2 = False
 
-         with open (arquivo, "r", encoding = "utf-8") as f:
-           for linha in f:
-             dados = linha.strip().split(";")
+           with open (arquivo, "r", encoding = "utf-8") as f:
+             for linha in f:
+               dados = linha.strip().split(";")
 
-             if dados[3].lower() == qual_nomee:         #compara se é igual ao input
-               encontrado2 = True
-               print (linha)
-               break
-         
+               if dados[3].lower() == qual_nomee:         #compara se é igual ao input
+                 encontrado2 = True
+                 print (linha)
+             if not encontrado2:
+              print ("Nome não encontrado !")
+
+         else:
+           print("Opção inválida !!")
+           
      
      
 
@@ -244,5 +249,5 @@ while True:
 
        #FAZER MENSAGEM DE '....COM SUCESSO NO FINAL DE CADA FUNÇÃO
        #tem q criar cadastro pras vulnerabilidades, varias vul pro msm ativo
-       #buscar pelo nome 
-       #Arrumar a buscar por nome
+      #tratar inputs vazios
+      #as vul tem q ter categoria e nivel de risco
