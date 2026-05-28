@@ -61,9 +61,29 @@ while True:
        id_ativo = proximo_id          #usando o gerador de id 
        
 
-       marca_ativo = input("Digite a marca do ativo  ")
-       responsavel_ativo = input("Digite o responsável pelo ativo  ")
-       setor_ativo = input("Digite o setor  ")
+       while True:                    #loop pra não deixar input vazio
+        marca_ativo = input("Digite a marca do ativo  ").strip()
+        if marca_ativo == "":
+          print("Você não pode deixar campos vazios !")
+        else:
+          break
+
+
+       while True:                     #loop pra não deixar input vazio
+        responsavel_ativo = input("Digite o responsável pelo ativo  ").strip()
+        if responsavel_ativo == "":
+          print ("Você não pode deixar campos vazios !")
+        else:
+          break
+
+
+       while True:
+        setor_ativo = input("Digite o setor  ").strip()
+        if setor_ativo == "":
+          print("Você não pode deixar campos vazios !")
+        else:
+          break
+
 
        #Salva no txt com ; pra dividir os dados
        with open (arquivo, "a", encoding = "utf-8") as f:
@@ -249,5 +269,4 @@ while True:
 
        #FAZER MENSAGEM DE '....COM SUCESSO NO FINAL DE CADA FUNÇÃO
        #tem q criar cadastro pras vulnerabilidades, varias vul pro msm ativo
-      #tratar inputs vazios
       #as vul tem q ter categoria e nivel de risco
