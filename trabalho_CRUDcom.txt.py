@@ -84,8 +84,11 @@ while True:
          print ("Não existe ativos cadastrados ainda")     #Verifica .txt ja foi criado
 
        else:
-         qual_id = int(input("Digite o ID do ativo  "))
-         encontrado2 = False
+         buscar_com_qual = int(input("Deseja buscar usando ID ou Nome do responsável ?\n\n1- Buscar por ID  2- Buscar por Nome"))   #Modo de busca
+
+         if buscar_com_qual == 1:
+          qual_id = int(input("Digite o ID do ativo  "))
+          encontrado2 = False
 
          with open (arquivo, "r", encoding = "utf-8") as f:
            for linha in f:
@@ -98,7 +101,22 @@ while True:
              
          if not encontrado2:
           print ("ID não encontrado")
-               
+
+         elif buscar_com_qual == 2:
+           qual_nomee = input("Digite o nome do responsável pelo ativo  ").lower()
+           encontrado2 = False
+
+         with open (arquivo, "r", encoding = "utf-8") as f:
+           for linha in f:
+             dados = linha.strip().split(";")
+
+             if dados[3].lower() == qual_nomee:         #compara se é igual ao input
+               encontrado2 = True
+               print (linha)
+               break
+         
+     
+     
 
 
 
@@ -219,11 +237,12 @@ while True:
      else:
        print ("Selecione uma opção válida !")
 
-    #tratamento de erro
+     #tratamento de erro
     except ValueError:
       print ("Selecione apenas números !")
          
 
        #FAZER MENSAGEM DE '....COM SUCESSO NO FINAL DE CADA FUNÇÃO
-       #tem q criar cadastro pras vulnerabilidades
-       #a
+       #tem q criar cadastro pras vulnerabilidades, varias vul pro msm ativo
+       #buscar pelo nome 
+       #Arrumar a buscar por nome
