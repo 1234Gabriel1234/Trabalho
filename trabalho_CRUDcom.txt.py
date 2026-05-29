@@ -7,7 +7,7 @@ class TipoDeAtivos (Enum):
     Roteador = 3
     Software = 4
 
-arquivo = "registros.txt"
+arquivo = "registros.txt" 
 
 #Gerador de ID 
 if os.path.exists(arquivo):
@@ -179,20 +179,38 @@ while True:
 
 
                #Update marca
-               elif update_qual == 2:
-                marca_update = input("Digite por qual marca deseja alterar o ativo  ")
-                dados [2] = marca_update
+               elif update_qual == 2:        #loop pra não deixar input vazio
+                while True:     
+                 marca_update = input("Digite por qual marca deseja alterar o ativo  ").strip()
+                 if marca_update == "":
+                   print("Você não pode deixar campos vazios !")
+                 else:
+                  break
+ 
+                dados [2] = marca_update  #Altera na lista
                 
 
                #Update responsável
-               elif update_qual == 3:
-                responsavel_update = input("Digite por qual responsável deseja alterar o ativo  ")
-                dados [3] = responsavel_update
+               elif update_qual == 3:           #loop pra não deixar input vazio
+                while True:
+                 responsavel_update = input("Digite por qual responsável deseja alterar o ativo  ").strip()
+                 if responsavel_update == "":
+                   print("Você não pode deixar campos vazios !")
+                 else:
+                   break
+                 
+                dados [3] = responsavel_update     #Altera na lista
+
 
                #Update setor
-               elif update_qual == 4:
-                setor_update = input("Digite por qual setor deseja alterar o ativo  ")
-                dados [4] = setor_update
+               elif update_qual == 4:                 #loop pra não deixar input vazio
+                while True:
+                 setor_update = input("Digite por qual setor deseja alterar o ativo  ").strip()
+                 if setor_update == "":
+                   print ("Você não pode deixar campos vazios !")
+                 else:
+                   break
+                dados [4] = setor_update   #Altera na lista
 
 
                #Opção invalida
