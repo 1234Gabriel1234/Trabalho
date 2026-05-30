@@ -8,6 +8,7 @@ class TipoDeAtivos (Enum):
     Software = 4
 
 arquivo = "registros.txt" 
+arquivo_vul = "registro_vul.txt"
 
 #Gerador de ID 
 if os.path.exists(arquivo):
@@ -28,11 +29,21 @@ if os.path.exists(arquivo):
 else:
   proximo_id = 1
 
-
-
 while True:
-    #MENU
-    print ("\n==== SISTEMA DE ATIVOS ====")
+  #MENU PRIMARIO
+  print ("======= SISTEMA ========")
+  print ("1- Acessar gerenciador de ativos\n2- Acessar gerenciador de vulnerabilidades\n3- Sair")
+  escolha_primaria = int(input("Selecione uma opção  "))
+
+
+
+  if escolha_primaria == 1:
+
+
+   while True:
+    
+    #MENU ATIVOS
+    print ("\n==== GERENCIADOR DE ATIVOS ====")
     print ("1- Cadastrar ativo")
     print ("2- Buscar ativo")
     print ("3- Atualizar ativo")
@@ -62,8 +73,8 @@ while True:
        
 
        while True:                    #loop pra não deixar input vazio
-        marca_ativo = input("Digite a marca do ativo  ").strip()
-        if marca_ativo == "":
+        host_name = input("Digite o hostname do ativo  ").strip()
+        if host_name == "":
           print("Você não pode deixar campos vazios !")
         else:
           break
@@ -87,12 +98,12 @@ while True:
 
        #Salva no txt com ; pra dividir os dados
        with open (arquivo, "a", encoding = "utf-8") as f:
-         f.write(f"{id_ativo};{tipo_ativo.name};{marca_ativo};{responsavel_ativo};{setor_ativo}\n")
+         f.write(f"{id_ativo};{tipo_ativo.name};{host_name};{responsavel_ativo};{setor_ativo}\n")
           #POSIÇÕES    0             1                2                 3                4
          
        proximo_id += 1
        
-       print (f"Ativo cadastrado com sucesso!  {id_ativo};{tipo_ativo.name};{marca_ativo};{responsavel_ativo};{setor_ativo}")
+       print (f"Ativo cadastrado com sucesso!  {id_ativo};{tipo_ativo.name};{host_name};{responsavel_ativo};{setor_ativo}")
        print (f"O ID de seu ativo é '{id_ativo}', utilize ele para ter acesso ao ativo mais tarde !")
 
 
@@ -285,6 +296,320 @@ while True:
       print ("Selecione apenas números !")
          
 
-       #FAZER MENSAGEM DE '....COM SUCESSO NO FINAL DE CADA FUNÇÃO
-       #tem q criar cadastro pras vulnerabilidades, varias vul pro msm ativo
-      #as vul tem q ter categoria e nivel de risco
+
+
+
+
+
+
+
+
+
+  elif escolha_primaria == 2:
+
+   while True:
+
+    #MENU VULNERABILIDADES
+    print ("\n==== GERENCIADOR DE VULNERABILIDADES ====")
+    print ("1- Cadastrar vulnerabilidade")
+    print ("2- Buscar vulnerabilidades de um ativo")
+    print ("3- Atualizar vulnerabilidade")
+    print ("4- Deletar vulnerabilidade")
+    print ("5- Voltar")
+
+    try:
+
+      escolha_vul = int(input("Selecione uma opção  "))
+
+      if escolha_vul == 5:
+        print("Saindo...")
+        break
+
+
+
+      #CADASTRO VULNERABILIDADE
+      elif escolha_vul == 1:
+
+        id_ativo_vul = int(input("Digite o ID do ativo da vulnerabilidade  "))
+
+        ativo_existe = False
+
+        #verifica se o ativo existe
+        with open (arquivo, "r", encoding="utf-8") as f:
+          for linha in f:
+            dados = linha.strip().split(";")
+
+            if dados[0] == str(id_ativo_vul):
+              ativo_existe = True
+              break
+
+        if not ativo_existe:
+          print("ID do ativo não encontrado !")
+
+        else:
+
+          while True:
+            nome_vul = input("Digite o nome da vulnerabilidade  ").strip()
+
+            if nome_vul == "":
+              print("Você não pode deixar campos vazios !")
+
+            else:
+              break
+
+
+          while True:
+            categoria_vul = input("Digite a categoria da vulnerabilidade  ").strip()
+
+            if categoria_vul == "":
+              print("Você não pode deixar campos vazios !")
+
+            else:
+              break
+
+
+          while True:
+            risco_vul = input("Digite o nível de risco da vulnerabilidade  ").strip()
+
+            if risco_vul == "":
+              print("Você não pode deixar campos vazios !")
+
+            else:
+              break
+
+
+          #GERADOR ID VUL
+          if os.path.exists(arquivo_vul):
+
+            with open (arquivo_vul, "r", encoding="utf-8") as f:
+              linhas_vul = f.readlines()
+
+            if len(linhas_vul) > 0:
+
+              ultima_linha_vul = linhas_vul[-1]
+              ultimo_id_vul = int(ultima_linha_vul.split(";")[0])
+              proximo_id_vul = ultimo_id_vul + 1
+
+            else:
+              proximo_id_vul = 1
+
+          else:
+            proximo_id_vul = 1
+
+
+          with open (arquivo_vul, "a", encoding="utf-8") as f:
+
+            f.write(f"{proximo_id_vul};{id_ativo_vul};{nome_vul};{categoria_vul};{risco_vul}\n")
+
+
+          print(f"Vulnerabilidade cadastrada com sucesso !")
+
+
+
+
+      #BUSCAR VULNERABILIDADES
+      elif escolha_vul == 2:
+
+        id_busca_vul = int(input("Digite o ID do ativo  "))
+
+        encontrado_vul = False
+
+        if not os.path.exists(arquivo_vul):
+
+          print("Nenhuma vulnerabilidade cadastrada !")
+
+        else:
+
+          with open (arquivo_vul, "r", encoding="utf-8") as f:
+
+            for linha in f:
+
+              dados = linha.strip().split(";")
+
+              if dados[1] == str(id_busca_vul):
+
+                encontrado_vul = True
+
+                print(linha)
+
+
+          if not encontrado_vul:
+
+            print("Nenhuma vulnerabilidade encontrada para esse ativo !")
+
+
+
+
+
+      #ATUALIZAR VULNERABILIDADE
+      elif escolha_vul == 3:
+
+        if not os.path.exists(arquivo_vul):
+
+          print("Nenhuma vulnerabilidade cadastrada ainda !")
+
+        else:
+
+          id_update_vul = int(input("Digite o ID da vulnerabilidade que deseja atualizar  "))
+
+          linhas_vul_atualizadas = []
+          encontrado_vul = False
+
+          with open (arquivo_vul, "r", encoding="utf-8") as f:
+
+            for linha in f:
+
+              dados = linha.strip().split(";")
+
+              if dados[0] == str(id_update_vul):
+
+                encontrado_vul = True
+
+                print(f"Status atual da vulnerabilidade  {linha}")
+
+                update_vul = int(input(
+                "Qual categoria deseja alterar ?\n"
+                "1- Nome da vulnerabilidade\n"
+                "2- Categoria\n"
+                "3- Nível de risco\n"
+                ))
+
+
+                #UPDATE NOME
+                if update_vul == 1:
+
+                  while True:
+
+                    novo_nome_vul = input("Digite o novo nome da vulnerabilidade  ").strip()
+
+                    if novo_nome_vul == "":
+                      print("Você não pode deixar campos vazios !")
+
+                    else:
+                      break
+
+                  dados[2] = novo_nome_vul
+
+
+
+                #UPDATE CATEGORIA
+                elif update_vul == 2:
+
+                  while True:
+
+                    nova_categoria = input("Digite a nova categoria  ").strip()
+
+                    if nova_categoria == "":
+                      print("Você não pode deixar campos vazios !")
+
+                    else:
+                      break
+
+                  dados[3] = nova_categoria
+
+
+
+                #UPDATE RISCO
+                elif update_vul == 3:
+
+                  while True:
+
+                    novo_risco = input("Digite o novo nível de risco  ").strip()
+
+                    if novo_risco == "":
+                      print("Você não pode deixar campos vazios !")
+
+                    else:
+                      break
+
+                  dados[4] = novo_risco
+
+
+                else:
+
+                  print("Selecione uma opção válida !")
+
+
+              nova_linha = ";".join(dados)
+              linhas_vul_atualizadas.append(nova_linha + "\n")
+
+
+
+          with open (arquivo_vul, "w", encoding="utf-8") as f:
+            f.writelines(linhas_vul_atualizadas)
+
+
+          if encontrado_vul:
+            print("Vulnerabilidade atualizada com sucesso !")
+
+          else:
+            print("ID da vulnerabilidade não encontrado !")
+
+
+
+
+
+      #DELETAR VULNERABILIDADE
+      elif escolha_vul == 4:
+
+        if not os.path.exists(arquivo_vul):
+
+          print("Nenhuma vulnerabilidade cadastrada ainda !")
+
+        else:
+
+          id_delete_vul = int(input("Digite o ID da vulnerabilidade que deseja deletar  "))
+
+          linhas_restantes_vul = []
+          encontrado_vul = False
+
+          with open (arquivo_vul, "r", encoding="utf-8") as f:
+
+            for linha in f:
+
+              dados = linha.strip().split(";")
+
+              #se ID bater, continua
+              if dados[0] == str(id_delete_vul):
+
+                encontrado_vul = True
+
+                certeza_delete_vul = int(input(
+                f"Tem certeza que deseja excluir a vulnerabilidade ?\n{linha}\n\n1- SIM   2- NÃO\n"
+                ))
+
+                if certeza_delete_vul == 1:
+
+                  print("Vulnerabilidade deletada com sucesso !")
+
+                  continue     #ignora a linha apagada
+
+                else:
+
+                  print("Exclusão cancelada !")
+
+
+              linhas_restantes_vul.append(linha)
+
+
+
+          #reescreve o arquivo
+          with open (arquivo_vul, "w", encoding="utf-8") as f:
+
+            f.writelines(linhas_restantes_vul)
+
+
+
+          if not encontrado_vul:
+
+            print("ID da vulnerabilidade não encontrado !")
+
+
+
+      else:
+        print("Selecione uma opção válida !")
+
+
+
+    except ValueError:
+      print("Selecione apenas números !")
